@@ -10,10 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostController@index')->name('posts.index');
+Route::resource('posts', 'PostController', ['except' => ['index']]);
 
 Auth::routes();
 
