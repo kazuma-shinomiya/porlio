@@ -94246,7 +94246,7 @@ var ExpandMore = Object(_mui_material_styles__WEBPACK_IMPORTED_MODULE_2__["style
   };
 });
 
-function Post() {
+function Post(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       expanded = _useState2[0],
@@ -94270,8 +94270,8 @@ function Post() {
     action: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
       "aria-label": "settings"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_icons_material_MoreVert__WEBPACK_IMPORTED_MODULE_16___default.a, null)),
-    title: "Shrimp and Chorizo Paella",
-    subheader: "September 14, 2016"
+    title: props.card.title,
+    subheader: props.card.createdAt
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_CardMedia__WEBPACK_IMPORTED_MODULE_5__["default"], {
     component: "img",
     height: "194",
@@ -94280,7 +94280,7 @@ function Post() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_CardContent__WEBPACK_IMPORTED_MODULE_6__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_11__["default"], {
     variant: "body2",
     color: "text.secondary"
-  }, "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_CardActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, props.card.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_CardActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
     disableSpacing: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
     "aria-label": "add to favorites"
@@ -94390,6 +94390,7 @@ function Posts() {
   var getPosts = function getPosts() {
     axios__WEBPACK_IMPORTED_MODULE_17___default.a.get('/posts').then(function (response) {
       console.log(response.data);
+      console.log(response.data);
       setPosts(response.data);
     })["catch"](function () {
       console.log('通信に失敗しました');
@@ -94399,11 +94400,19 @@ function Posts() {
   var cards = [];
   posts.map(function (post) {
     return cards.push({
+      id: post.id,
       title: post.title,
-      description: post.description
+      description: post.description,
+      createdAt: post.created_at,
+      user: post.user
     });
   });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Post__WEBPACK_IMPORTED_MODULE_18__["default"], null));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, cards.map(function (card) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Post__WEBPACK_IMPORTED_MODULE_18__["default"], {
+      key: card.id,
+      card: card
+    });
+  }));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Posts);

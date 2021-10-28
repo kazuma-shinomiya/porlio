@@ -28,7 +28,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function Post() {
+function Post(props) {
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
@@ -48,8 +48,8 @@ function Post() {
                 <MoreVertIcon />
               </IconButton>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={props.card.title}
+            subheader={props.card.createdAt}
           />
           <CardMedia
             component="img"
@@ -59,9 +59,7 @@ function Post() {
           />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              This impressive paella is a perfect party dish and a fun meal to cook
-              together with your guests. Add 1 cup of frozen peas along with the mussels,
-              if you like.
+              {props.card.description}
             </Typography>
           </CardContent>
           <CardActions disableSpacing>

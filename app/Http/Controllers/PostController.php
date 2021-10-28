@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::all()->with('user');
+        return Post::with('user')->get();
     }
 
     /**

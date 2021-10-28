@@ -30,6 +30,7 @@ function Posts() {
             .get('/posts')
             .then(response => {
                 console.log(response.data);
+                console.log(response.data);
                 setPosts(response.data);
             })
             .catch(() => {
@@ -40,14 +41,19 @@ function Posts() {
     let cards = [];
     posts.map((post) => 
         cards.push({
+            id: post.id,
             title: post.title,
             description: post.description,
+            createdAt: post.created_at,
+            user: post.user,
         })
     );
     
     return (
         <div>
-            <Post />
+            {cards.map((card) => (
+                <Post key={card.id} card={card}/>
+            ))}
         </div>
     );
 }
