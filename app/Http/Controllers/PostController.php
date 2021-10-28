@@ -7,6 +7,11 @@ use App\Post;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -38,8 +43,7 @@ class PostController extends Controller
     {
         $post->user_id = $request->user()->id;
         $input = $request->only(['title', 'description']);
-        dd($input);
-        $post->save($input);
+        $post->fill($input)->save();
         return redirect()->route('posts.index');
     }
 
