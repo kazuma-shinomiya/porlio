@@ -10,8 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'PostController@index')->name('posts.index');
-Route::resource('posts', 'PostController', ['except' => ['index']]);
+Route::get('/', 'HomeController@top');
+Route::resource('posts', 'PostController');
 
 Auth::routes();
 
