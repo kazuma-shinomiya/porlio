@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Post from '../components/Post';
 
 function Posts() {
     const [posts, setPosts] = useState([]);
     
     useEffect(() => {
         getPosts();
-        
-    }, [])
+    }, []);
     
     const getPosts = () => {
         axios
@@ -22,17 +37,17 @@ function Posts() {
             });
     }
     
+    let cards = [];
+    posts.map((post) => 
+        cards.push({
+            title: post.title,
+            description: post.description,
+        })
+    );
+    
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Post Component</div>
-
-                        <div className="card-body">I'm an example component!</div>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <Post />
         </div>
     );
 }
