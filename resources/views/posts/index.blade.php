@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    aaaaa
-</div>
+    <a href="{{ route('posts.create') }}">create</a>
+    <div id="posts"></div>
 @endsection
