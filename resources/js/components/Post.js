@@ -37,6 +37,7 @@ function Post(props) {
     
     return (
         <Card sx={{ maxWidth: 345 }}>
+            <a href={`/posts/${props.card.id}`}>aaaaaa</a>
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

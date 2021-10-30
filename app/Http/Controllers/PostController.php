@@ -7,62 +7,32 @@ use App\Post;
 
 class PostController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->except('index', 'show');
-    }
     
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return Post::with('user')->get();
+        // return Post::with('user')->get();
+        $posts = Post::all();
+        return response()->json($posts, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, Post $post)
     {
-        $post->user_id = $request->user()->id;
+        // $post->user_id = $request->user()->id;
         $input = $request->only(['title', 'description']);
         $post->fill($input)->save();
-        return redirect()->route('posts.index');
+        return response()->json($post, 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return $post;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //

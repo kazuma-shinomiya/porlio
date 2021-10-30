@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Post from '../components/Post';
+import { useParams } from 'react-router-dom';
 
-function Posts() {
-    const [posts, setPosts] = useState([]);
+function PostShow() {
+    const postId = useParams();
+    const [post, setPost] = useState({});
     
     useEffect(() => {
-        getPosts();
+        getPost(postId);
     }, []);
     
-    const getPosts = () => {
+    const getPost = (id) => {
         axios
-            .get('/posts')
+            .get('/posts/' + id)
             .then(response => {
-                setPosts(response.data);
+                console.log(response.data);
+                setPost(response.data);
             })
             .catch(() => {
                 console.log('通信に失敗しました');
@@ -41,8 +43,4 @@ function Posts() {
     );
 }
 
-export default Posts;
-
-if (document.getElementById('posts')) {
-    ReactDOM.render(<Posts />, document.getElementById('posts'));
-}
+export default PostShow;
