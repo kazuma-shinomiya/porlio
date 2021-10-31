@@ -37,7 +37,7 @@ function Top() {
         }
         
         await axios
-            .post('/api/posts', {
+            .post('api/posts', {
                 title: formData.title,
                 description: formData.description,
             })

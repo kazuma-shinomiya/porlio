@@ -30,7 +30,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return $post;
+        return response()->json($post, 200);
     }
 
     public function edit($id)
