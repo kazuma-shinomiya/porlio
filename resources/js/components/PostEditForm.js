@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import { useParams } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -18,6 +19,7 @@ const style = {
 
 function PostEditForm(props) {
     const {data, inputChange, updatePost} = props;
+    const params = useParams();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -35,7 +37,7 @@ function PostEditForm(props) {
               <form>
                 <TextField id="title" label="タイトル" variant="outlined" name="title" value={data.title} onChange={inputChange} />
                 <TextField id="description" label="概要" variant="outlined" name="description" value={data.description} onChange={inputChange} />
-                <Button color="primary" variant="contained" href="/" onClick={updatePost}>登録</Button>
+                <Button color="primary" variant="contained" href={`/posts/show/${params.id}`} onClick={updatePost}>更新</Button>
             　</form>
             </Box>
           </Modal>

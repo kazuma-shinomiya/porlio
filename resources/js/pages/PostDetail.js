@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import PostEditForm from '../components/PostEditForm';
+import Button from '@mui/material/Button';
 
 function PostDetail(props) {
     const [post, setPost] = useState({});
@@ -48,12 +49,24 @@ function PostDetail(props) {
                 });
     }
     
+    const deletePost = async() => {
+        await axios
+                .delete(`/api/posts/${props.match.params.id}`)
+                .then(response => {
+                    
+                })
+                .catch(() => {
+                   console.log('通信に失敗しました'); 
+                });
+    }
+    
     return (
         <div>
             <p>{post.id}</p>
             <p>{post.title}</p>
             <p>{post.description}</p>
             <PostEditForm data={formData} inputChange={inputChange} updatePost={updatePost}/>
+            <Button color="primary" variant="contained" href='/' onClick={deletePost}>削除</Button>
         </div>
     );
 }
