@@ -33,21 +33,11 @@ class PostController extends Controller
         return response()->json($post, 200);
     }
 
-    public function edit($id)
+    public function update(Request $request, Post $post)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $input = $request->only(['title', 'description']);
+        $post->fill($input)->save();
+        return response()->json($post, 200);
     }
 
     /**
