@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Top from './pages/Top';
 import PostDetail from './pages/PostDetail';
+import Header from './components/Header';
+import Login from './pages/Login';
+import { AuthProvider } from './hooks/AuthContext';
 
 function App() {
+
     return (
-        <div>
-            <Switch>
-                <Route exact path="/posts/show/:id" component={PostDetail} />
-                <Route exact path="/" component={Top}　/>
-            </Switch>
-        </div>
+        <BrowserRouter>
+            <AuthProvider>
+                <Header />
+                <Switch>
+                    <Route exact path="/posts/show/:id" component={PostDetail} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/" component={Top}　/>
+                </Switch>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 
-ReactDOM.render((
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-), document.getElementById('app'))
+if (document.getElementById('app')) {
+    ReactDOM.render(<App />, document.getElementById('app'));
+}
