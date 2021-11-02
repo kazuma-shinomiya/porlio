@@ -28,6 +28,18 @@ const Login = () => {
             })
     }
     
+    const logout = async() => {
+        await axios
+                .post('/logout')
+                .then(response => {
+                    console.log('ログアウトしました');
+                    setIsAuth(false);
+                })
+                .catch(error => {
+                    console.log('ログアウト失敗');   
+                })
+    }
+    
     const inputChange = (e) => {
         const key = e.target.name;
         const value = e.target.value;
