@@ -38,24 +38,6 @@ function PostDetail(props) {
         setFormData('');
     }
     
-    // const handleDelete = () => {
-    //     deletePost.mutate(props.match.params.id)
-    // }
-    
-    
-    
-    // const deletePost = async() => {
-    //     await axios
-    //             .delete(`/api/posts/${props.match.params.id}`)
-    //             .then(response => {
-                    
-    //             })
-    //             .catch(() => {
-    //               console.log('通信に失敗しました'); 
-    //             });
-    // }
-    // updatePost={updatePost}
-    // onClick={deletePost}
     return (
         <div>
             <p>{post.id}</p>
