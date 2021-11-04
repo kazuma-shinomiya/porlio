@@ -1,10 +1,11 @@
 <?php
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('posts', 'PostController')->only(['store', 'update', 'destroy']);
+    
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 });
+Route::resource('posts', 'PostController')->only(['store', 'update', 'destroy']);
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout');
 Route::resource('posts', 'PostController')->only(['index', 'show']);

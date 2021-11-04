@@ -18,7 +18,7 @@ const style = {
 };
 
 function PostEditForm(props) {
-    const {data, inputChange, updatePost} = props;
+    const {data, inputChange, handleSubmit, oldPost, handleEditForm} = props;
     const params = useParams();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -26,7 +26,7 @@ function PostEditForm(props) {
     
     return (
         <div>
-          <Button onClick={handleOpen}>編集</Button>
+          <Button onClick={() => {handleOpen(); handleEditForm();}}>編集</Button>
           <Modal
             open={open}
             onClose={handleClose}
@@ -35,9 +35,9 @@ function PostEditForm(props) {
           >
             <Box sx={style}>
               <form>
-                <TextField id="title" label="タイトル" variant="outlined" name="title" value={data.title} onChange={inputChange} />
-                <TextField id="description" label="概要" variant="outlined" name="description" value={data.description} onChange={inputChange} />
-                <Button color="primary" variant="contained" href={`/posts/show/${params.id}`} onClick={updatePost}>更新</Button>
+                <TextField id="title" label="タイトル" variant="outlined" name="title"　value={data.title} onChange={inputChange} />
+                <TextField id="description" label="概要" variant="outlined" name="description"　value={data.description} onChange={inputChange} />
+                <Button color="primary" variant="contained" href={`/posts/show/${params.id}`} onClick={handleSubmit}>更新</Button>
             　</form>
             </Box>
           </Modal>

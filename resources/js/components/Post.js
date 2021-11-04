@@ -37,7 +37,7 @@ function Post(props) {
     
     return (
         <Card sx={{ maxWidth: 345 }}>
-          <a href={`/posts/show/${props.card.id}`}>aaaaaa</a>
+          <a href={`/posts/show/${props.post.id}`}>aaaaaa</a>
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -49,8 +49,8 @@ function Post(props) {
                 <MoreVertIcon />
               </IconButton>
             }
-            title={props.card.title}
-            subheader={props.card.createdAt}
+            title={props.post.title}
+            subheader={props.post.createdAt}
           />
           <CardMedia
             component="img"
@@ -60,7 +60,7 @@ function Post(props) {
           />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              {props.card.description}
+              {props.post.description}
             </Typography>
           </CardContent>
           <CardActions disableSpacing>

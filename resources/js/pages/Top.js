@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import PostForm from '../components/PostForm';
 import Post from '../components/Post';
+import { usePosts, useStorePost } from '../queries/PostQuery';
 
 function Top() {
-    const [posts, setPosts] = useState([]);
     const [formData, setFormData] = useState({ title: '', description: '' });
+    const storePost = useStorePost();
     
-    useEffect(() => {
-        getPosts();
-    }, []);
+    const { status, data:posts , error } = usePosts();
+    if (status === 'loading') {
+        return <span>Loading...</span>
+    }
+ 
+    if (status === 'error') {
+        return <span>Error: {error.message}</span>
+    }
     
-    const getPosts = () => {
-        axios
-            .get('/api/posts')
-            .then(response => {
-                setPosts(response.data);
-            })
-            .catch(() => {
-                console.log('通信に失敗しました');
-            });
+    if (!posts || posts.length <= 0) {
+        return <span>登録されたデータがありません</span>
     }
     
     const inputChange = (e) => {
@@ -31,41 +29,19 @@ function Top() {
         setFormData(data);
     }
     
-    const storePost = async() => {
-        if (formData == '') {
-            return;
-        }
+    const handleSubmit = () => {
+        if (formData == '') return;
         
-        await axios
-            .post('api/posts', {
-                title: formData.title,
-                description: formData.description,
-            })
-            .then(response => {
-                setFormData('');
-            })
-            .catch(error => {
-               console.log(error); 
-            });
+        storePost.mutate(formData);
+        setFormData('');
     }
-    
-    let cards = [];
-    posts.map((post) =>
-        cards.push({
-            id: post.id,
-            title: post.title,
-            description: post.description,
-            createdAt: post.created_at,
-            // user: post.user,
-        })
-    );
     
     return (
         <div>
             <h1>一覧</h1>
-            <PostForm data={formData} inputChange={inputChange} btnFunc={storePost}/>
-            {cards.map((card) => (
-                <Post key={card.id} card={card}/>
+            <PostForm data={formData} inputChange={inputChange} btnFunc={handleSubmit}/>
+            {posts.map((post) => (
+                <Post key={post.id} post={post}/>
             ))}
         </div>
     );

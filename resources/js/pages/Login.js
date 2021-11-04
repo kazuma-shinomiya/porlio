@@ -7,6 +7,18 @@ const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const { setIsAuth } = useAuthContext();
     
+    const getUser = async() => {
+        await axios
+                .get('/api/user')
+                .then(response => {
+                    console.log(response.data);
+                    setUser(response.data);
+                })
+                .catch(error => {
+                    console.log("ログイン情報取得ができません")
+                })
+    }
+    
     const login = async(e) => {
         e.preventDefault();
         axios

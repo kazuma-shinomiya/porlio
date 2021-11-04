@@ -3,26 +3,24 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import PostEditForm from '../components/PostEditForm';
 import Button from '@mui/material/Button';
+import { usePost, useUpdatePost, useDeletePost } from '../queries/PostQuery';
 
 function PostDetail(props) {
-    const [post, setPost] = useState({});
+    const { status, data:post , error } = usePost(props.match.params.id);
     const [formData, setFormData] = useState({ title: '', description: '' });
+    const updatePost = useUpdatePost();
+    const deletePost = useDeletePost();
     
-    useEffect(() => {
-        getPost();
-    }, []);
+    if (status === 'loading') {
+        return <span>Loading...</span>
+    }
+ 
+    if (status === 'error') {
+        return <span>Error: {error.message}</span>
+    }
     
-    const getPost = () => {
-        axios
-            .get(`/api/posts/${props.match.params.id}`)
-            .then(response => {
-                console.log(response.data);
-                setPost(response.data);
-                setFormData({ title: response.data.title, description: response.data.description})
-            })
-            .catch(() => {
-                console.log('通信に失敗しました');
-            });
+    const handleEditForm = () => {
+        setFormData({ title: post.title, description: post.description });
     }
     
     const inputChange = (e) => {
@@ -33,40 +31,38 @@ function PostDetail(props) {
         setFormData(data);
     }
     
-    const updatePost = async() => {
+    const handleSubmit = (e) => {
         if (formData == '') return;
         
-        await axios
-                .put(`/api/posts/${props.match.params.id}`, {
-                    'title': formData.title,
-                    'description': formData.description,
-                })
-                .then(response => {
-                    setPost(response.data);
-                })
-                .catch(() => {
-                    console.log('通信に失敗しました');
-                });
+        updatePost.mutate({id: props.match.params.id, formData: formData});
+        setFormData('');
     }
     
-    const deletePost = async() => {
-        await axios
-                .delete(`/api/posts/${props.match.params.id}`)
-                .then(response => {
+    // const handleDelete = () => {
+    //     deletePost.mutate(props.match.params.id)
+    // }
+    
+    
+    
+    // const deletePost = async() => {
+    //     await axios
+    //             .delete(`/api/posts/${props.match.params.id}`)
+    //             .then(response => {
                     
-                })
-                .catch(() => {
-                   console.log('通信に失敗しました'); 
-                });
-    }
-    
+    //             })
+    //             .catch(() => {
+    //               console.log('通信に失敗しました'); 
+    //             });
+    // }
+    // updatePost={updatePost}
+    // onClick={deletePost}
     return (
         <div>
             <p>{post.id}</p>
             <p>{post.title}</p>
             <p>{post.description}</p>
-            <PostEditForm data={formData} inputChange={inputChange} updatePost={updatePost}/>
-            <Button color="primary" variant="contained" href='/' onClick={deletePost}>削除</Button>
+            <PostEditForm data={formData} oldPost={post} inputChange={inputChange} handleEditForm={handleEditForm} handleSubmit={handleSubmit}/>
+            <Button color="primary" variant="contained" href='/' onClick={() => deletePost.mutate(props.match.params.id)}>削除</Button>
         </div>
     );
 }
